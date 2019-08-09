@@ -205,6 +205,11 @@ bool hideSymbol(const core::GlobalState &gs, core::SymbolRef sym) {
     if (data->isClass() && data->superClass() == core::Symbols::StubModule()) {
         return true;
     }
+    // this doesn't work. there are some <static-init> that still make it through. changing the check to just
+    //
+    //   data->name == core::Names::staticInit()
+    //
+    // works better (it prevents more <static-init> from getting through), but it allows the root <static-init> through.
     if (data->name.data(gs)->kind == core::NameKind::UNIQUE &&
         data->name.data(gs)->unique.original == core::Names::staticInit()) {
         return true;
