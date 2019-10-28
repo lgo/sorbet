@@ -47,13 +47,9 @@ constexpr string_view NULL_LABEL = "null"sv;
 
 /** Returns true if `b` is a subset of `a`. Only works on single-line ranges. Assumes ranges are well-formed (start <=
  * end) */
-bool rangeIsSubset(const Range &a, const Range &b) {
-    if (a.start->line != a.end->line || b.start->line != b.end->line || a.start->line != b.start->line) {
-        return false;
-    }
-
-    // One-liners on same line.
-    return b.start->character >= a.start->character && b.end->character <= a.end->character;
+bool rangeIsEqual(const Range &a, const Range &b) {
+    return (a.start->line == b.start->line && a.end->line == b.end->line && a.start->character == b.start->character &&
+            a.end->character == b.end->character);
 }
 
 string prettyPrintRangeComment(string_view sourceLine, const Range &range, string_view comment) {
@@ -100,9 +96,9 @@ void assertLocationsMatch(const UnorderedMap<string, shared_ptr<core::File>> &so
         auto expectedLocation = (*expectedLocationsIt)->getLocation(uriPrefix);
         auto &actualLocation = *actualLocationsIt;
 
-        // If true, the expectedLocation is a subset of the actualLocation
+        // If true, the expectedLocation is the entire actualLocation
         if (actualLocation->uri == expectedLocation->uri &&
-            rangeIsSubset(*actualLocation->range, *expectedLocation->range)) {
+            rangeIsEqual(*actualLocation->range, *expectedLocation->range)) {
             // Assertion passes. Consume both.
             actualLocationsIt++;
             expectedLocationsIt++;
