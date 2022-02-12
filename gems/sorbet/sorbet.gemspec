@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   }
 
   s.add_dependency 'sorbet-static', '0.0.0'
+  s.add_dependency 'sorted_set', '1.0.0'
 
   s.required_ruby_version = ['>= 2.3.0']
 
