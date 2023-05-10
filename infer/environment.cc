@@ -1479,6 +1479,14 @@ Environment::processBinding(core::Context ctx, const cfg::CFG &inWhat, cfg::Bind
 
                         e.addErrorSection(typeAndOrigin.explainGot(ctx, ownerLoc));
                         core::TypeErrorDiagnostics::explainTypeMismatch(ctx, e, expectedType, typeAndOrigin.type);
+                        // FIXME(joey): Do we need a similar check as cfg::Return for implicitReturnLoc?
+                        //
+                        // FIXME(joey): How do we address the loc difference for shorthand block returns? I think need
+                        // to find the parent method, determine if it's a symbol (send?), and then use the parent
+                        // method's arg loc?
+                        auto replaceLoc = ctx.locAt(bind.loc);
+                        core::TypeErrorDiagnostics::maybeAutocorrect(ctx, e, replaceLoc, constr, expectedType,
+                                                                     typeAndOrigin.type);
                     }
                 } else if (!expectedType.isUntyped() && !expectedType.isTop() && typeAndOrigin.type.isUntyped()) {
                     auto what = core::errors::Infer::errorClassForUntyped(ctx, ctx.file);

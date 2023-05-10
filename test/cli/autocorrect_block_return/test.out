@@ -1,0 +1,176 @@
+autocorrect_block_return.rb:10: Expected `Integer` but found `T.nilable(Integer)` for block result type. DEBUG: example https://srb.help/7005
+    10 |example(&:first)
+                 ^^^^^^
+  Expected `Integer` for block result type:
+    autocorrect_block_return.rb:5:
+     5 |sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+                    ^^^
+  Got `T.nilable(Integer)` originating from:
+    autocorrect_block_return.rb:10:
+    10 |example(&:first)
+                 ^^^^^^
+  Autocorrect: Done
+    autocorrect_block_return.rb:10: Replaced with `T.must(:first)`
+    10 |example(&:first)
+                 ^^^^^^
+
+autocorrect_block_return.rb:12: Expected `Integer` but found `T.nilable(Integer)` for block result type. DEBUG: example https://srb.help/7005
+    12 |example {|x| x.first}
+                     ^^^^^^^
+  Expected `Integer` for block result type:
+    autocorrect_block_return.rb:5:
+     5 |sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+                    ^^^
+  Got `T.nilable(Integer)` originating from:
+    autocorrect_block_return.rb:12:
+    12 |example {|x| x.first}
+                     ^^^^^^^
+  Autocorrect: Done
+    autocorrect_block_return.rb:12: Replaced with `T.must(x.first)`
+    12 |example {|x| x.first}
+                     ^^^^^^^
+
+autocorrect_block_return.rb:14: Expected `Integer` but found `T.nilable(Integer)` for block result type. DEBUG: example https://srb.help/7005
+    14 |example {|x| 0; x.first}
+                        ^^^^^^^
+  Expected `Integer` for block result type:
+    autocorrect_block_return.rb:5:
+     5 |sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+                    ^^^
+  Got `T.nilable(Integer)` originating from:
+    autocorrect_block_return.rb:14:
+    14 |example {|x| 0; x.first}
+                        ^^^^^^^
+  Autocorrect: Done
+    autocorrect_block_return.rb:14: Replaced with `T.must(x.first)`
+    14 |example {|x| 0; x.first}
+                        ^^^^^^^
+
+autocorrect_block_return.rb:18: Expected `Integer` but found `T.nilable(Integer)` for block result type. DEBUG: example https://srb.help/7005
+    18 |  x.first
+          ^^^^^^^
+  Expected `Integer` for block result type:
+    autocorrect_block_return.rb:5:
+     5 |sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+                    ^^^
+  Got `T.nilable(Integer)` originating from:
+    autocorrect_block_return.rb:18:
+    18 |  x.first
+          ^^^^^^^
+  Autocorrect: Done
+    autocorrect_block_return.rb:18: Replaced with `T.must(x.first)`
+    18 |  x.first
+          ^^^^^^^
+Errors: 4
+
+--------------------------------------------------------------------------
+
+# typed: true
+
+extend T::Sig
+
+sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+def example(&blk)
+  yield [0]
+end
+
+example(&T.must(:first))
+
+example {|x| T.must(x.first)}
+
+example {|x| 0; T.must(x.first)}
+
+example do |x|
+  0;
+  T.must(x.first)
+end
+
+
+--------------------------------------------------------------------------
+
+autocorrect_block_return.rb:10: Expected `Integer` but found `T.nilable(Integer)` for block result type. DEBUG: example https://srb.help/7005
+    10 |example(&:first)
+                 ^^^^^^
+  Expected `Integer` for block result type:
+    autocorrect_block_return.rb:5:
+     5 |sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+                    ^^^
+  Got `T.nilable(Integer)` originating from:
+    autocorrect_block_return.rb:10:
+    10 |example(&:first)
+                 ^^^^^^
+  Autocorrect: Done
+    autocorrect_block_return.rb:10: Replaced with `T.unsafe(:first)`
+    10 |example(&:first)
+                 ^^^^^^
+
+autocorrect_block_return.rb:12: Expected `Integer` but found `T.nilable(Integer)` for block result type. DEBUG: example https://srb.help/7005
+    12 |example {|x| x.first}
+                     ^^^^^^^
+  Expected `Integer` for block result type:
+    autocorrect_block_return.rb:5:
+     5 |sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+                    ^^^
+  Got `T.nilable(Integer)` originating from:
+    autocorrect_block_return.rb:12:
+    12 |example {|x| x.first}
+                     ^^^^^^^
+  Autocorrect: Done
+    autocorrect_block_return.rb:12: Replaced with `T.unsafe(x.first)`
+    12 |example {|x| x.first}
+                     ^^^^^^^
+
+autocorrect_block_return.rb:14: Expected `Integer` but found `T.nilable(Integer)` for block result type. DEBUG: example https://srb.help/7005
+    14 |example {|x| 0; x.first}
+                        ^^^^^^^
+  Expected `Integer` for block result type:
+    autocorrect_block_return.rb:5:
+     5 |sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+                    ^^^
+  Got `T.nilable(Integer)` originating from:
+    autocorrect_block_return.rb:14:
+    14 |example {|x| 0; x.first}
+                        ^^^^^^^
+  Autocorrect: Done
+    autocorrect_block_return.rb:14: Replaced with `T.unsafe(x.first)`
+    14 |example {|x| 0; x.first}
+                        ^^^^^^^
+
+autocorrect_block_return.rb:18: Expected `Integer` but found `T.nilable(Integer)` for block result type. DEBUG: example https://srb.help/7005
+    18 |  x.first
+          ^^^^^^^
+  Expected `Integer` for block result type:
+    autocorrect_block_return.rb:5:
+     5 |sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+                    ^^^
+  Got `T.nilable(Integer)` originating from:
+    autocorrect_block_return.rb:18:
+    18 |  x.first
+          ^^^^^^^
+  Autocorrect: Done
+    autocorrect_block_return.rb:18: Replaced with `T.unsafe(x.first)`
+    18 |  x.first
+          ^^^^^^^
+Errors: 4
+
+--------------------------------------------------------------------------
+
+# typed: true
+
+extend T::Sig
+
+sig {params(blk: T.proc.params(xs: T::Array[Integer]).returns(Integer)).void}
+def example(&blk)
+  yield [0]
+end
+
+example(&T.unsafe(:first))
+
+example {|x| T.unsafe(x.first)}
+
+example {|x| 0; T.unsafe(x.first)}
+
+example do |x|
+  0;
+  T.unsafe(x.first)
+end
